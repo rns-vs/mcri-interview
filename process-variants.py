@@ -21,23 +21,22 @@ import csv
 INPUT_FILE = 'variants.tsv'
 OUTPUT_FILE = 'variants-filtered.tsv'
 
-# def main():
-#     with open(INPUT_FILE, 'r') as f:
-#         while line in f:
-#             print(line)
+def main():
+    fieldnames = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER']
 
-# if __name__ == '__main__':
+    with open(INPUT_FILE, 'r') as f, open(OUTPUT_FILE, 'w') as filtered:
+        reader = csv.DictReader(f, delimiter='\t')
+        writer = csv.DictWriter(filtered, fieldnames, delimiter='\t')
+        writer.writeheader()
+        for row in reader:
+            if int(row['QUAL']) < 40:
+                continue
+            elif row['FILTER'] != 'PASS':
+                continue
+            else:
+                print(row)
+                # writer.writerow(row)
 
-fieldnames = ['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER']
-
-with open(INPUT_FILE, 'r') as f, open(OUTPUT_FILE, 'w') as filtered:
-    reader = csv.DictReader(f, delimiter='\t')
-    writer = csv.DictWriter(filtered, fieldnames, delimiter='\t')
-    writer.writerow(['#CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER'])
-    for row in reader:
-        if int(row['QUAL']) < 40:
-            continue
-        elif row['FILTER'] != 'PASS':
-            continue
-        else:
-            writer.writerow(row)
+if __name__ == '__main__':
+    print("hello")
+    main()
