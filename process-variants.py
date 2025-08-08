@@ -38,5 +38,4 @@ def main():
                 # writer.writerow(row)
 
 if __name__ == '__main__':
-    print("hello")
     main()
